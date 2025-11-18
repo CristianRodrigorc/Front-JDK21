@@ -67,7 +67,7 @@ cd academia-panel-frontend
 npm install 
 
 # 3. Instalar la librería para peticiones HTTP
-npm install axios 
+npm install axios
 
 # 4. Iniciar la aplicación en modo desarrollo
 npm run dev 
