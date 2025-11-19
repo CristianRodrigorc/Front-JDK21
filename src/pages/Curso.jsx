@@ -122,6 +122,7 @@ const Curso = () => {
             descripcion: formData.descripcion,
             duracionHoras: formData.duracionHoras,
             idMateria: formData.idMateria,
+            idFormato: 1
         };
         
         try {
@@ -224,6 +225,7 @@ const Curso = () => {
             descripcion: formData.descripcion,
             duracionHoras: formData.duracionHoras,
             idMateria: formData.idMateria,
+            idFormato: 1
         };
         
         try {
