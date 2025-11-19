@@ -14,7 +14,6 @@ const Curso = () => {
         nombre: 'Master Desarrollo FullStack',
         descripcion: 'Curso intensivo de programación.',
         duracionHoras: 210, 
-        activo: true,
     });
 
     // Estado para el ID de búsqueda/edición
@@ -66,14 +65,13 @@ const Curso = () => {
     const loadCursos = useCallback(async () => { // <-- Uso de useCallback
         setResult('Cargando cursos (GraphQL)...');
         const GQL_QUERY = `
-            query {
-                allCursos {
-                    id
-                    nombre
-                    duracionHoras
-                    activo
+                query {
+                    allCursos {
+                        idCurso
+                        nombre
+                        duracionHoras
+                    }
                 }
-            }
         `;
         try {
             const response = await axios.post(GRAPHQL_URL, { query: GQL_QUERY });
@@ -111,9 +109,9 @@ const Curso = () => {
 
         setResult('Creando curso (GraphQL)...');
         const GQL_MUTATION = `
-            mutation CreateCurso($input: CursoDto!) {
+            mutation CreateCurso($input: CursoInput!) {
                 createCurso(input: $input) {
-                    id
+                    idCurso
                     nombre
                 }
             }
@@ -124,7 +122,6 @@ const Curso = () => {
             descripcion: formData.descripcion,
             duracionHoras: formData.duracionHoras,
             idMateria: formData.idMateria,
-            activo: formData.activo
         };
         
         try {
@@ -158,16 +155,14 @@ const Curso = () => {
         }
         setResult(`Buscando curso con ID ${id} (GraphQL)...`);
         const GQL_QUERY = `
-            query CursoById($id: ID!) {
+                query CursoById($id: ID!) {
                 cursoById(id: $id) {
-                    id
+                    idCurso
+                    idMateria
+                    idFormato
                     nombre
                     descripcion
                     duracionHoras
-                    idMateria
-                    activo
-                    fechaCreacion
-                    fechaActualizacion // Agregado para completar el DTO
                 }
             }
         `;
@@ -194,7 +189,7 @@ const Curso = () => {
                     duracionHoras: foundCurso.duracionHoras,
                     activo: foundCurso.activo,
                 });
-                setCursoId(foundCurso.id.toString());
+                setCursoId(foundCurso.idCurso.toString());
                 toast.info(`Curso "${foundCurso.nombre}" cargado para edición.`); // <-- Notificación
             } else {
                 setResult(`⚠️ Curso con ID ${id} no encontrado.`);
@@ -216,11 +211,10 @@ const Curso = () => {
         }
         setResult(`Actualizando curso con ID ${id} (GraphQL)...`);
         const GQL_MUTATION = `
-            mutation UpdateCurso($id: ID!, $input: CursoDto!) {
+            mutation UpdateCurso($id: ID!, $input: CursoInput!) {
                 updateCurso(id: $id, input: $input) {
-                    id
+                    idCurso
                     nombre
-                    fechaActualizacion
                 }
             }
         `;
@@ -230,7 +224,6 @@ const Curso = () => {
             descripcion: formData.descripcion,
             duracionHoras: formData.duracionHoras,
             idMateria: formData.idMateria,
-            activo: formData.activo
         };
         
         try {
@@ -394,11 +387,11 @@ const Curso = () => {
                         <ul className="space-y-1">
                             {cursosList.map(c => (
                                 <li 
-                                    key={c.id} 
+                                    key={c.idCurso} 
                                     className="p-1 text-sm text-gray-700 border-b cursor-pointer last:border-b-0 hover:bg-yellow-50"
-                                    onClick={() => setCursoId(c.id.toString())} // <-- Usabilidad: carga el ID al hacer clic
+                                    onClick={() => setCursoId(c.idCurso.toString())} // <-- Usabilidad: carga el ID al hacer clic
                                 >
-                                    <span className="font-bold text-yellow-600">ID: {c.id}</span> - **{c.nombre}** ({c.duracionHoras} hrs)
+                                    <span className="font-bold text-yellow-600">ID: {c.idCurso}</span> - **{c.nombre}** ({c.duracionHoras} hrs)
                                 </li>
                             ))}
                         </ul>
