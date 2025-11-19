@@ -112,9 +112,6 @@ const Empresa = () => {
                     nombreLegal
                     razonSocial
                     representante
-                    // Aquí irían los demás campos si el response los incluyera, ej:
-                    // telefono 
-                    // email
                 }
             }
         `;
@@ -208,8 +205,6 @@ const Empresa = () => {
                     nombreLegal
                     razonSocial
                     representante
-                    // Si el DTO completo del backend tuviera todos los campos del formulario, 
-                    // se deberían incluir aquí para cargarlos en el formulario. 
                 }
             }
         `;
