@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify'; 
 
-// URL de tu endpoint GraphQL
-const GRAPHQL_ENDPOINT = 'http://localhost:8080/graphql';
+const GRAPHQL_URL = import.meta.env.VITE_API_URL + '/graphql';
+
 
 // ----------------------------------------------------
 // 1. DEFINICIONES DE OPERACIONES GRAPHQL (Igual que antes)

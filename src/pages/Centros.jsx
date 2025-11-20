@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify'; // <-- Importación necesaria
 
-const GRAPHQL_URL = 'http://localhost:8080/graphql';
+const GRAPHQL_URL = import.meta.env.VITE_API_URL + '/graphql';
 
 const Centros = () => {
     // --- 1. ESTADOS ---

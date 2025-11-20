@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify'; 
 
-// URL única para todas las peticiones GraphQL
-const GRAPHQL_URL = 'http://localhost:8080/graphql';
+const GRAPHQL_URL = import.meta.env.VITE_API_URL + '/graphql';
 
 // Estado inicial del formulario reflejando los campos del Profesor
 const initialFormData = {
