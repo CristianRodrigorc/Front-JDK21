@@ -1,29 +1,30 @@
 # Stage 1: Build the React app
 FROM node:20 AS build  
 
-# Set working directory in container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to install dependencies
+# Copy package.json and lockfile
 COPY package*.json ./  
 
 # Install dependencies
 RUN npm install  
 
-# Copy the rest of the React source code
+# Copy the rest of the app
 COPY . .  
 
-# Build the React app for production (creates /build folder)
+# Build-time env for Vite
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
+# Build React app
 RUN npm run build  
 
-# Stage 2: Serve the React app with Nginx
+# Stage 2: Serve with Nginx
 FROM nginx:alpine  
 
-# Copy the build folder from the previous stage to Nginx's default html folder
+# Copy built files to Nginx
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expose port 80 for Nginx
 EXPOSE 80  
 
-# Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
